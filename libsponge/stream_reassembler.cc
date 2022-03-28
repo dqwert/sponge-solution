@@ -42,53 +42,61 @@ long StreamReassembler::merge_seg(seg_t &to, const seg_t &from) {
 //! \details This function accepts a substring (aka a segment) of bytes,
 //! possibly out-of-order, from the logical stream, and assembles any newly
 //! contiguous substrings and writes them into the output stream in order.
-void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
+void StreamReassembler::push_substring(const string &data, const uint64_t index, const bool eof) {
     if (index >= _head_i + _capacity) {  // capacity over
         return;
     }
 
     // handle extra substring prefix
-    seg_t elm;
     if (index + data.length() <= _head_i) {  // couldn't equal, because there have emtpy substring
-        goto JUDGE_EOF;
-    } else if (index < _head_i) {
-        size_t offset = _head_i - index;
-        elm.data.assign(data.begin() + offset, data.end());
-        elm.begin = index + offset;
-        elm.len = elm.data.length();
-    } else {
-        elm.begin = index;
-        elm.len = data.length();
-        elm.data = data;
+        if (eof) {
+            _eof = true;
+        }
+        if (_eof && empty()) {
+            _output.end_input();
+        }
+        return;
     }
-    _unassembled_byte += elm.len;
+
+    seg_t seg;
+    if (index < _head_i) {
+        size_t offset = _head_i - index;
+        seg.data.assign(data.begin() + offset, data.end());
+        seg.begin = index + offset;
+        seg.len = seg.data.length();
+    } else {
+        seg.begin = index;
+        seg.len = data.length();
+        seg.data = data;
+    }
+    _unassembled_byte += seg.len;
 
     // merge substring
     do {
         // merge next
         long merged_bytes = 0;
-        auto iter = _segs.lower_bound(elm);
-        while (iter != _segs.end() && (merged_bytes = merge_seg(elm, *iter)) >= 0) {
+        auto iter = _segs.lower_bound(seg);
+        while (iter != _segs.end() && (merged_bytes = merge_seg(seg, *iter)) >= 0) {
             _unassembled_byte -= merged_bytes;
             _segs.erase(iter);
-            iter = _segs.lower_bound(elm);
+            iter = _segs.lower_bound(seg);
         }
         // merge prev
         if (iter == _segs.begin()) {
             break;
         }
         iter--;
-        while ((merged_bytes = merge_seg(elm, *iter)) >= 0) {
+        while ((merged_bytes = merge_seg(seg, *iter)) >= 0) {
             _unassembled_byte -= merged_bytes;
             _segs.erase(iter);
-            iter = _segs.lower_bound(elm);
+            iter = _segs.lower_bound(seg);
             if (iter == _segs.begin()) {
                 break;
             }
             iter--;
         }
     } while (false);
-    _segs.insert(elm);
+    _segs.insert(seg);
 
     // write to ByteStream
     if (!_segs.empty() && _segs.begin()->begin == _head_i) {
@@ -100,7 +108,6 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
         _segs.erase(_segs.begin());
     }
 
-JUDGE_EOF:
     if (eof) {
         _eof = true;
     }
