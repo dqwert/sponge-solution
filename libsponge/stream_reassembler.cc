@@ -9,7 +9,7 @@
 // You will need to add private members to the class declaration in `stream_reassembler.hh`
 
 template <typename... Targs>
-void DUMMY_CODE(Targs &&... /* unused */) {}
+void DUMMY_CODE(Targs &&.../* unused */) {}
 
 using namespace std;
 
@@ -17,95 +17,97 @@ StreamReassembler::StreamReassembler(const size_t capacity) : _output(capacity),
     _buffer.resize(capacity);
 }
 
-long StreamReassembler::merge_block(block_node &elm1, const block_node &elm2) {
-    block_node x, y;
-    if (elm1.begin > elm2.begin) {
-        x = elm2;
-        y = elm1;
+long StreamReassembler::merge_seg(seg_t &to, const seg_t &from) {
+    seg_t l, r;
+    if (to.begin > from.begin) {
+        l = from;
+        r = to;
     } else {
-        x = elm1;
-        y = elm2;
+        l = to;
+        r = from;
     }
-    if (x.begin + x.length < y.begin) {
-        // throw runtime_error("StreamReassembler: couldn't merge blocks\n");
-        return -1;  // no intersection, couldn't merge
-    } else if (x.begin + x.length >= y.begin + y.length) {
-        elm1 = x;
-        return y.length;
-    } else {
-        elm1.begin = x.begin;
-        elm1.data = x.data + y.data.substr(x.begin + x.length - y.begin);
-        elm1.length = elm1.data.length();
-        return x.begin + x.length - y.begin;
+    if (l.begin + l.len < r.begin) {  // no intersection, couldn't merge
+        return -1;
+    } else if (l.begin + l.len >= r.begin + r.len) {  // l covers r completely
+        to = l;
+        return r.len;
+    } else {  // l.b < r.b < l.e < r.e
+        to.begin = l.begin;
+        to.data = l.data + r.data.substr(l.begin + l.len - r.begin);
+        to.len = to.data.length();
+        return l.begin + l.len - r.begin;
     }
 }
 
 //! \details This function accepts a substring (aka a segment) of bytes,
 //! possibly out-of-order, from the logical stream, and assembles any newly
 //! contiguous substrings and writes them into the output stream in order.
-void StreamReassembler::push_substring(const string &data, const size_t index, const bool eof) {
-    if (index >= _head_index + _capacity) {  // capacity over
+void StreamReassembler::push_substring(const string &data, const uint64_t index, const bool eof) {
+    if (index >= _head_i + _capacity) {             // past the first unacceptable
+        return;
+    }
+    if (index + data.length() <= _head_i) {         // before the first unassembled
+        if (eof) {
+            _eof = true;
+        }
+        if (_eof && empty()) {
+            _output.end_input();
+        }
         return;
     }
 
-    // handle extra substring prefix
-    block_node elm;
-    if (index + data.length() <= _head_index) {  // couldn't equal, because there have emtpy substring
-        goto JUDGE_EOF;
-    } else if (index < _head_index) {
-        size_t offset = _head_index - index;
-        elm.data.assign(data.begin() + offset, data.end());
-        elm.begin = index + offset;
-        elm.length = elm.data.length();
+    // construct seg, handle extra substring prefix
+    seg_t seg;
+    if (index < _head_i) {                          // truncate anything before the first unassembled
+        size_t offset = _head_i - index;
+        seg.data.assign(data.begin() + offset, data.end());
+        seg.begin = index + offset;
+        seg.len = seg.data.length();
     } else {
-        elm.begin = index;
-        elm.length = data.length();
-        elm.data = data;
+        seg.begin = index;
+        seg.len = data.length();
+        seg.data = data;
     }
-    _unassembled_byte += elm.length;
+    _unassembled_byte += seg.len;
 
     // merge substring
     do {
         // merge next
         long merged_bytes = 0;
-        auto iter = _blocks.lower_bound(elm);
-        while (iter != _blocks.end() && (merged_bytes = merge_block(elm, *iter)) >= 0) {
+        auto iter = _segs.lower_bound(seg);
+        while (iter != _segs.end() && (merged_bytes = merge_seg(seg, *iter)) >= 0) {
             _unassembled_byte -= merged_bytes;
-            _blocks.erase(iter);
-            iter = _blocks.lower_bound(elm);
+            _segs.erase(iter);
+            iter = _segs.lower_bound(seg);
         }
         // merge prev
-        if (iter == _blocks.begin()) {
+        if (iter == _segs.begin()) {
             break;
         }
         iter--;
-        while ((merged_bytes = merge_block(elm, *iter)) >= 0) {
+        while (iter != _segs.begin() && (merged_bytes = merge_seg(seg, *iter)) >= 0) {
             _unassembled_byte -= merged_bytes;
-            _blocks.erase(iter);
-            iter = _blocks.lower_bound(elm);
-            if (iter == _blocks.begin()) {
-                break;
-            }
+            _segs.erase(iter);
+            iter = _segs.lower_bound(seg);
             iter--;
         }
     } while (false);
-    _blocks.insert(elm);
+    _segs.insert(seg);
 
     // write to ByteStream
-    if (!_blocks.empty() && _blocks.begin()->begin == _head_index) {
-        const block_node head_block = *_blocks.begin();
-        // modify _head_index and _unassembled_byte according to successful write to _output
+    if (!_segs.empty() && _segs.begin()->begin == _head_i) {
+        const seg_t head_block = *_segs.begin();
+        // modify _head_i and _unassembled_byte according to successfully write to _output
         size_t write_bytes = _output.write(head_block.data);
-        _head_index += write_bytes;
+        _head_i += write_bytes;
         _unassembled_byte -= write_bytes;
-        _blocks.erase(_blocks.begin());
+        _segs.erase(_segs.begin());
     }
 
-JUDGE_EOF:
     if (eof) {
-        _eof_flag = true;
+        _eof = true;
     }
-    if (_eof_flag && empty()) {
+    if (_eof && empty()) {
         _output.end_input();
     }
 }

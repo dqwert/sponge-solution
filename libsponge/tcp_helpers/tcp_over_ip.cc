@@ -77,7 +77,7 @@ InternetDatagram TCPOverIPv4Adapter::wrap_tcp_in_ip(TCPSegment &seg) {
     seg.header().sport = config().source.port();
     seg.header().dport = config().destination.port();
 
-    // create an Internet Datagram and set its addresses and length
+    // create an Internet Datagram and set its addresses and len
     InternetDatagram ip_dgram;
     ip_dgram.header().src = config().source.ipv4_numeric();
     ip_dgram.header().dst = config().destination.ipv4_numeric();

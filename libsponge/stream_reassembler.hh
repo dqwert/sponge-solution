@@ -16,23 +16,22 @@
 //! possibly overlapping) into an in-order byte stream.
 class StreamReassembler {
   private:
-    // Your code here -- add private members as necessary.
-    struct block_node {
+    struct seg_t {
         size_t begin = 0;
-        size_t length = 0;
+        size_t len = 0;
         std::string data = "";
-        bool operator<(const block_node t) const { return begin < t.begin; }
+        bool operator<(const seg_t t) const { return begin < t.begin; }
     };
-    std::set<block_node> _blocks = {};
+    std::set<seg_t> _segs = {};
     std::vector<char> _buffer = {};
     size_t _unassembled_byte = 0;
-    size_t _head_index = 0;
-    bool _eof_flag = false;
+    size_t _head_i = 0;
+    bool _eof = false;
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
 
-    //! merge elm2 to elm1, return merged bytes
-    long merge_block(block_node &elm1, const block_node &elm2);
+    //! merge from to to, return merged bytes
+    long merge_seg(seg_t &to, const seg_t &from);
 
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
@@ -68,7 +67,7 @@ class StreamReassembler {
     //! \returns `true` if no substrings are waiting to be assembled
     bool empty() const;
 
-    size_t head_index() const { return _head_index; }
+    size_t head_index() const { return _head_i; }
     bool input_ended() const { return _output.input_ended(); }
 };
 

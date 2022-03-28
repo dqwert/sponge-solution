@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
             }  // tcp_hdr_{orig,copy} go out of scope
 
             if (!compare_tcp_headers_nolen(tcp_seg.header(), tcp_seg_copy.header())) {
-                cout << "ERROR: after unparsing, TCP headers (other than length) don't match.\n";
+                cout << "ERROR: after unparsing, TCP headers (other than len) don't match.\n";
             }
 
             TCPSegment tcp_seg_copy2;

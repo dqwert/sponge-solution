@@ -30,9 +30,9 @@ ParseResult IPv4Header::parse(NetParser &p) {
 
     const uint8_t first_byte = p.u8();
     ver = first_byte >> 4;     // version
-    hlen = first_byte & 0x0f;  // header length
+    hlen = first_byte & 0x0f;  // header len
     tos = p.u8();              // type of service
-    len = p.u16();             // length
+    len = p.u16();             // len
     id = p.u16();              // id
 
     const uint16_t fo_val = p.u16();
@@ -88,9 +88,9 @@ string IPv4Header::serialize() const {
     ret.reserve(4 * hlen);
 
     const uint8_t first_byte = (ver << 4) | (hlen & 0xf);
-    NetUnparser::u8(ret, first_byte);  // version and header length
+    NetUnparser::u8(ret, first_byte);  // version and header len
     NetUnparser::u8(ret, tos);         // type of service
-    NetUnparser::u16(ret, len);        // length
+    NetUnparser::u16(ret, len);        // len
     NetUnparser::u16(ret, id);         // id
 
     const uint16_t fo_val = (df ? 0x4000 : 0) | (mf ? 0x2000 : 0) | (offset & 0x1fff);
@@ -119,14 +119,14 @@ uint16_t IPv4Header::payload_length() const { return len - 4 * hlen; }
 //!  +--------+--------+--------+--------+
 //!  |        destination address        |
 //!  +--------+--------+--------+--------+
-//!  |  zero  |protocol|  payload length |
+//!  |  zero  |protocol|  payload len |
 //!  +--------+--------+--------+--------+
 //! ~~~
 uint32_t IPv4Header::pseudo_cksum() const {
     uint32_t pcksum = (src >> 16) + (src & 0xffff);  // source addr
     pcksum += (dst >> 16) + (dst & 0xffff);          // dest addr
     pcksum += proto;                                 // protocol
-    pcksum += payload_length();                      // payload length
+    pcksum += payload_length();                      // payload len
     return pcksum;
 }
 

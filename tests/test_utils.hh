@@ -24,7 +24,7 @@ inline void show_ethernet_frame(const uint8_t *pkt, const struct pcap_pkthdr &hd
     }
 
     std::cout << "    ethertype: " << std::setw(2) << +pkt[12] << std::setw(2) << +pkt[13] << '\n';
-    std::cout << std::dec << "length: " << hdr.len << "    captured: " << hdr.caplen << '\n';
+    std::cout << std::dec << "len: " << hdr.len << "    captured: " << hdr.caplen << '\n';
 
     std::cout.flags(flags);
 }

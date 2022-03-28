@@ -28,8 +28,8 @@ class TCPSegment {
     Buffer &payload() { return _payload; }
     //!@}
 
-    //! \brief Segment's length in sequence space
-    //! \note Equal to payload length plus one byte if SYN is set, plus one byte if FIN is set
+    //! \brief Segment's len in sequence space
+    //! \note Equal to payload len plus one byte if SYN is set, plus one byte if FIN is set
     size_t length_in_sequence_space() const;
 };
 

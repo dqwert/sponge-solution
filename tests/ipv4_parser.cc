@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
             const uint16_t totlen = 30 + rd() % 1024;
             vector<uint8_t> test_header(totlen, 0);
             generate(test_header.begin(), test_header.end(), [&] { return rd(); });
-            test_header[0] = 0x45;  // IPv4, length 20
+            test_header[0] = 0x45;  // IPv4, len 20
             test_header[2] = totlen >> 8;
             test_header[3] = totlen & 0xff;
             test_header[14] = test_header[15] = 0;
@@ -237,10 +237,10 @@ int main(int argc, char **argv) {
             }  // ipv4_hdr_{orig,copy}, tcp_hdr_{orig,copy} go out of scope
 
             if (!compare_ip_headers_nolen(ip_dgram.header(), ip_dgram_copy.header())) {
-                cout << "ERROR: after unparsing, IP headers (other than length) don't match.\n";
+                cout << "ERROR: after unparsing, IP headers (other than len) don't match.\n";
             }
             if (!compare_tcp_headers_nolen(tcp_seg.header(), tcp_seg_copy.header())) {
-                cout << "ERROR: after unparsing, TCP headers (other than length) don't match.\n";
+                cout << "ERROR: after unparsing, TCP headers (other than len) don't match.\n";
             }
 
             // create a new datagram from the serialized IP and TCP headers + payload

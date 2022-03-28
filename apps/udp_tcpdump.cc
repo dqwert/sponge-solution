@@ -87,7 +87,7 @@ static int process_ipv4_ipv6(int len, const uint8_t *data, string &src_addr, str
     int data_offset = 0;
     const uint8_t pt = data[0] & 0xf0;
     if (pt == 0x40) {
-        // check packet length and proto
+        // check packet len and proto
         data_offset = (data[0] & 0x0f) * 4;
         if (len < data_offset) {
             return -1;
@@ -99,7 +99,7 @@ static int process_ipv4_ipv6(int len, const uint8_t *data, string &src_addr, str
         src_addr = inet4_addr(data + 12);
         dst_addr = inet4_addr(data + 16);
     } else if (pt == 0x60) {
-        // check packet length
+        // check packet len
         if (len < 42) {
             return -1;
         }
@@ -278,7 +278,7 @@ int main(int argc, char **argv) {
                 cout << ':' << (tcp_hdr.seqno + seqlen);
             }
 
-            cout << " ack " << tcp_hdr.ackno << " win " << tcp_hdr.win << " length " << payload_len << endl;
+            cout << " ack " << tcp_hdr.ackno << " win " << tcp_hdr.win << " len " << payload_len << endl;
         }
         hexdump(payload.data(), payload.size(), 8);
     }

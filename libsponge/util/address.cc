@@ -18,7 +18,7 @@ Address::Raw::operator sockaddr *() { return reinterpret_cast<sockaddr *>(&stora
 Address::Raw::operator const sockaddr *() const { return reinterpret_cast<const sockaddr *>(&storage); }
 
 //! \param[in] addr points to a raw socket address
-//! \param[in] size is `addr`'s length
+//! \param[in] size is `addr`'s len
 Address::Address(const sockaddr *addr, const size_t size) : _size(size) {
     // make sure proposed sockaddr can fit
     if (size > sizeof(_address.storage)) {

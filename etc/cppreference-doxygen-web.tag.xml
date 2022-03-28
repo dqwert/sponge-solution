@@ -5771,8 +5771,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/match_results/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/match_results/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -6019,7 +6019,7 @@
     <member kind="function">
       <type>T</type>
       <name>do_length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -6111,8 +6111,8 @@
     <class kind="class">std::codecvt::intern_type</class>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -6395,8 +6395,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/string/char_traits/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/string/char_traits/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -7124,7 +7124,7 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
+      <name>len</name>
       <anchorfile>cpp/string/basic_string/size</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
@@ -7942,7 +7942,7 @@
     <member kind="function">
       <type>T</type>
       <name>do_length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -8034,8 +8034,8 @@
     <class kind="class">std::codecvt_byname::intern_type</class>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -10274,8 +10274,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/match_results/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/match_results/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -10305,7 +10305,7 @@
     <member kind="function">
       <type>T</type>
       <name>do_length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -10390,8 +10390,8 @@
     <class kind="class">std::codecvt_utf8::intern_type</class>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -10442,8 +10442,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/sub_match/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/sub_match/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -12247,8 +12247,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/match_results/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/match_results/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -13293,7 +13293,7 @@
     <member kind="function">
       <type>T</type>
       <name>do_length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -13378,8 +13378,8 @@
     <class kind="class">std::codecvt_utf8_utf16::intern_type</class>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -16836,8 +16836,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/match_results/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/match_results/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -16897,8 +16897,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/sub_match/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/sub_match/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -17993,8 +17993,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/regex_traits/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/regex_traits/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -19759,8 +19759,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/sub_match/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/sub_match/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -20581,8 +20581,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/sub_match/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/sub_match/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -23252,7 +23252,7 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
+      <name>len</name>
       <anchorfile>cpp/string/basic_string/size</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
@@ -24047,7 +24047,7 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
+      <name>len</name>
       <anchorfile>cpp/string/basic_string/size</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
@@ -26164,7 +26164,7 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
+      <name>len</name>
       <anchorfile>cpp/string/basic_string/size</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
@@ -27016,7 +27016,7 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
+      <name>len</name>
       <anchorfile>cpp/string/basic_string/size</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
@@ -28850,7 +28850,7 @@
     <member kind="function">
       <type>T</type>
       <name>do_length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -28935,8 +28935,8 @@
     <class kind="class">std::codecvt_utf16::intern_type</class>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/locale/codecvt/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/locale/codecvt/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -29077,8 +29077,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/match_results/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/match_results/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>
@@ -35005,8 +35005,8 @@
     </member>
     <member kind="function">
       <type>T</type>
-      <name>length</name>
-      <anchorfile>cpp/regex/sub_match/length</anchorfile>
+      <name>len</name>
+      <anchorfile>cpp/regex/sub_match/len</anchorfile>
       <anchor></anchor>
       <arglist>(T... args)</arglist>
     </member>

@@ -85,7 +85,7 @@ size_t FileDescriptor::write(BufferViewList buffer, const bool write_all) {
         }
 
         if (bytes_written > ssize_t(buffer.size())) {
-            throw runtime_error("write wrote more than length of input buffer");
+            throw runtime_error("write wrote more than len of input buffer");
         }
 
         register_write();

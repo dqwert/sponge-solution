@@ -14,8 +14,8 @@ enum class ParseResult {
     BadChecksum,      //!< Bad checksum
     PacketTooShort,   //!< Not enough data to finish parsing
     WrongIPVersion,   //!< Got a version of IP other than 4
-    HeaderTooShort,   //!< Header length is shorter than minimum required
-    TruncatedPacket,  //!< Packet length is shorter than header claims
+    HeaderTooShort,   //!< Header len is shorter than minimum required
+    TruncatedPacket,  //!< Packet len is shorter than header claims
     Unsupported       //!< Packet uses unsupported features
 };
 

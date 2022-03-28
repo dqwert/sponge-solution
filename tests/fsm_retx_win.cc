@@ -104,7 +104,7 @@ int main() {
             check_segment(test_4, d1, false, __LINE__);
 
             for (unsigned i = 1; i < num_backoffs; ++i) {
-                test_4.execute(Tick((cfg.rt_timeout << i) - i));  // exponentially increasing delay length
+                test_4.execute(Tick((cfg.rt_timeout << i) - i));  // exponentially increasing delay len
                 test_4.execute(ExpectNoSegment{}, "test 4 failed: re-tx too fast after timeout");
                 test_4.execute(Tick(i));
                 check_segment(test_4, d1, false, __LINE__);
