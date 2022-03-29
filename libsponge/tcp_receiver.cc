@@ -38,7 +38,7 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
         _fin = true;
     } else if (seg.length_in_sequence_space() == 0 && abs_seqno == _stream_head_i) { // not FIN and not one size's SYN, check border
         return true;
-    } else if (abs_seqno >= _stream_head_i + window_size() || abs_seqno + len <= _stream_head_i && !is_syn) {
+    } else if ((abs_seqno >= _stream_head_i + window_size() || abs_seqno + len <= _stream_head_i) && !is_syn) {
         return false;
     }
 
