@@ -26,7 +26,7 @@ TCPSender::TCPSender(const size_t capacity, const uint16_t retx_timeout, const s
     , _stream(capacity)
     , _retransmission_timeout(retx_timeout) {}
 
-uint64_t TCPSender::bytes_in_flight() const { return _bytes_in_flight; }
+size_t TCPSender::bytes_in_flight() const { return _bytes_in_flight; }
 
 void TCPSender::fill_window(bool send_syn) {
     // sent a SYN before sent other segment
