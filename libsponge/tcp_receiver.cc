@@ -6,7 +6,6 @@ using namespace std;
 
 bool TCPReceiver::segment_received(const TCPSegment &seg) {
     bool is_syn = false;
-    static size_t abs_seqno = 0;
     size_t len;
     if (seg.header().syn) {
         if (_syn) {                         // already get a SYN, refuse other SYN.
