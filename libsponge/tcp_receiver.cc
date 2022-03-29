@@ -5,7 +5,7 @@
 using namespace std;
 
 bool TCPReceiver::segment_received(const TCPSegment &seg) {
-    bool ret = false;
+    bool is_syn = false;
     static size_t abs_seqno = 0;
     size_t len;
     if (seg.header().syn) {
@@ -16,7 +16,7 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
         _init_seq_num = seg.header().seqno.raw_value();
         abs_seqno = 1;
         _stream_head_i = 1;
-        ret = true;
+        is_syn = true;
 
         len = seg.length_in_sequence_space() - 1;
         if (len == 0) {                     // segment's content only have a SYN flag
@@ -38,10 +38,8 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
         _fin = true;
     } else if (seg.length_in_sequence_space() == 0 && abs_seqno == _stream_head_i) { // not FIN and not one size's SYN, check border
         return true;
-    } else if (abs_seqno >= _stream_head_i + window_size() || abs_seqno + len <= _stream_head_i) {
-        if (!ret) {
-            return false;
-        }
+    } else if (abs_seqno >= _stream_head_i + window_size() || abs_seqno + len <= _stream_head_i && !is_syn) {
+        return false;
     }
 
     _reassembler.push_substring(seg.payload().copy(), abs_seqno - 1, seg.header().fin);
