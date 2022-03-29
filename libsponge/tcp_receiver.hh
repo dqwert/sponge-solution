@@ -19,8 +19,8 @@ class TCPReceiver {
     StreamReassembler _reassembler;
     bool _syn = false;
     bool _fin = false;
-    size_t _stream_head_i = 0;  // when unintital, equal zero for ackno special judge
-    size_t abs_seqno = 0;
+    size_t _stream_head_i = 0;  // when uninitialized, equal zero for ackno special judge
+    size_t _abs_seqno = 0;
     size_t _init_seq_num = 0;
     //! The maximum number of bytes we'll store.
     size_t _capacity;
