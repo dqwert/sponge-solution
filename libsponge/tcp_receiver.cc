@@ -45,6 +45,7 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
     if (_reassembler.input_ended()) {  // FIN be count as one byte
         _stream_head_i++;
     }
+    cout << "_abs_seqno=" << _abs_seqno << ", _stream_head_i=" << _stream_head_i << endl;
     return true;
 }
 
