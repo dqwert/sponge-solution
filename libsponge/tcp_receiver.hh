@@ -17,10 +17,10 @@ class TCPReceiver {
   private:
     //! Our data structure for re-assembling bytes.
     StreamReassembler _reassembler;
-    bool _syn_flag = false;
-    bool _fin_flag = false;
-    size_t _base = 0;  // when unintital, equal zero for ackno special judge
-    size_t _isn = 0;
+    bool _syn = false;
+    bool _fin = false;
+    size_t _stream_head_i = 0;  // when unintital, equal zero for ackno special judge
+    size_t _init_seq_num = 0;
     //! The maximum number of bytes we'll store.
     size_t _capacity;
 

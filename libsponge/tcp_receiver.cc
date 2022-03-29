@@ -9,51 +9,54 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
     static size_t abs_seqno = 0;
     size_t len;
     if (seg.header().syn) {
-        if (_syn_flag) {                // already get a SYN, refuse other SYN.
+        if (_syn) {                         // already get a SYN, refuse other SYN.
             return false;
         }
-        _syn_flag = true;
-        ret = true;
-        _isn = seg.header().seqno.raw_value();
+        _syn = true;
+        _init_seq_num = seg.header().seqno.raw_value();
         abs_seqno = 1;
-        _base = 1;
+        _stream_head_i = 1;
+        ret = true;
+
         len = seg.length_in_sequence_space() - 1;
-        if (len == 0) {              // segment's content only have a SYN flag
+        if (len == 0) {                     // segment's content only have a SYN flag
             return true;
         }
-    } else if (!_syn_flag) {            // before get a SYN, refuse any segment
+    } else if (!_syn) {                     // before get a SYN, refuse any segment
         return false;
-    } else {                            // not a SYN segment, compute it's abs_seqno
+    } else {                                // not a SYN segment, compute it's abs_seqno
+        cout << "unwrap(" << WrappingInt32(seg.header().seqno.raw_value()) << ", " << WrappingInt32(_init_seq_num) << "," << abs_seqno << ")=";
         abs_seqno = unwrap(WrappingInt32(seg.header().seqno.raw_value()),
-                           WrappingInt32(_isn),
+                           WrappingInt32(_init_seq_num),
                            abs_seqno);
+        cout << abs_seqno << endl;
         len = seg.length_in_sequence_space();
     }
 
     if (seg.header().fin) {
-        if (_fin_flag) {                    // already get a FIN, refuse other FIN
+        if (_fin) {                         // already get a FIN, refuse other FIN
             return false;
         }
-        _fin_flag = true;
-    } else if (seg.length_in_sequence_space() == 0 && abs_seqno == _base) { // not FIN and not one size's SYN, check border
+        _fin = true;
+    } else if (seg.length_in_sequence_space() == 0 && abs_seqno == _stream_head_i) { // not FIN and not one size's SYN, check border
         return true;
-    } else if (abs_seqno >= _base + window_size() || abs_seqno + len <= _base) {
+    } else if (abs_seqno >= _stream_head_i + window_size() || abs_seqno + len <= _stream_head_i) {
         if (!ret) {
             return false;
         }
     }
 
     _reassembler.push_substring(seg.payload().copy(), abs_seqno - 1, seg.header().fin);
-    _base = _reassembler.head_i() + 1;
+    _stream_head_i = _reassembler.head_i() + 1;
     if (_reassembler.input_ended()) {       // FIN be count as one byte
-        _base++;
+        _stream_head_i++;
     }
     return true;
 }
 
 optional<WrappingInt32> TCPReceiver::ackno() const {
-    if (_base > 0) {
-        return WrappingInt32(wrap(_base, WrappingInt32(_isn)));
+    if (_stream_head_i > 0) {
+        return WrappingInt32(wrap(_stream_head_i, WrappingInt32(_init_seq_num)));
     } else {
         return std::nullopt;
     }
