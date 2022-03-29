@@ -67,7 +67,7 @@ class StreamReassembler {
     //! \returns `true` if no substrings are waiting to be assembled
     bool empty() const;
 
-    size_t head_index() const { return _head_i; }
+    size_t head_i() const { return _head_i; }
     bool input_ended() const { return _output.input_ended(); }
 };
 
