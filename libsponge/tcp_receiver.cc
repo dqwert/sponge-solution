@@ -25,11 +25,9 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
     } else if (!_syn) {                     // before get a SYN, refuse any segment
         return false;
     } else {                                // not a SYN segment, compute it's abs_seqno
-        cout << "unwrap(" << WrappingInt32(seg.header().seqno.raw_value()) << ", " << WrappingInt32(_init_seq_num) << "," << abs_seqno << ")=";
         abs_seqno = unwrap(WrappingInt32(seg.header().seqno.raw_value()),
                            WrappingInt32(_init_seq_num),
                            abs_seqno);
-        cout << abs_seqno << endl;
         len = seg.length_in_sequence_space();
     }
 
